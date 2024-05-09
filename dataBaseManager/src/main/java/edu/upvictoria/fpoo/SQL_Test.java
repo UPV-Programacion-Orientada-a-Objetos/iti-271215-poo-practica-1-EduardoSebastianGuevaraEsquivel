@@ -8,7 +8,6 @@ public class SQL_Test {
         sql.UseTable("/home/sebastian/Escritorio");
         sql.CreateTable("Hola","Juan, Eduardo, Erick");
         sql.InsertTable("Hola", "Elias");
-        sql.DeleteTable("HOla", "Elias");
     }
 
 }

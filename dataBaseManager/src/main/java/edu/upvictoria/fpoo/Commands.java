@@ -1,10 +1,9 @@
 package edu.upvictoria.fpoo;
-
 import java.io.*;
 
-public class Commands{
+public class Commands {
 
-    private String folderPath;
+    private static String folderPath;
 
     public void CreateTable(String fName, String columns){
         try{
@@ -12,9 +11,9 @@ public class Commands{
             fw.append(columns);
             fw.append("\n");
             fw.close();
-            System.out.println("Tabla " + fName + " creada correctamente");
+            System.out.println("Tabla creada correctamente");
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -31,14 +30,13 @@ public class Commands{
 
     public void InsertTable(String fName, String columns){
         try{
-            FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv", true);
+            FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
             fw.append(columns);
             fw.append("\n");
             fw.close();
-            System.out.println("Datos insertados en la tabla " + fName + " correctamente");
+            System.out.println("Datos ingresados correctamente");
         }catch (IOException e){
-            System.out.println("Error al insertar datos en la tabla ");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
     }
@@ -48,15 +46,15 @@ public class Commands{
             File Eliminar = new File(folderPath + "/" + fName + ".csv");
             if (Eliminar.exists()) {
                 if (Eliminar.delete()) {
-                    System.out.println("Tabla " + fName + " eliminada correctamente");
+                    System.out.println("Tabla eliminada correctamente");
                 }else {
-                    System.out.println("Error al eliminar la tabla");
+                    System.out.println("Error al eliminar la tabla ");
                 }
             }else {
-                System.out.println("Error");
+                System.out.println("Error al elinmar la tabla ");
             }
         }catch (Exception e){
-            System.out.println("Error al eliminar la tabla");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -64,12 +62,12 @@ public class Commands{
         try {
             File file = new File(folderPath + "/" + fName + ".csv");
             if (file.exists()) {
-                System.out.println("Tabla " + fName + " encontrada");
+                System.out.println("Tabla encontrada");
             } else {
-                System.out.println("La tabla " + fName + " no existe");
+                System.out.println("La tabla no existe");
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -87,24 +85,26 @@ public class Commands{
                         }
                     }
                 } else {
-                    System.out.println("No existen tablas en esta ruta");
+                    System.out.println("No existen tablas en la ruta especificada");
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    public void DeleteTable(String fileName, String columns) { // En proceso de creación
+    public void ValueTable(String columns) {
         try {
-            FileWriter fw = new FileWriter(folderPath + "/" + fileName + ".csv", true);
+            String fName = "nombre";
+
+            FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
             fw.append(columns);
             fw.append("\n");
             fw.close();
-            System.out.println("Datos insertados en la tabla " + fileName + " correctamente");
+            System.out.println("Datos insertados correctamente");
         } catch (IOException e) {
-            System.out.println("Error al insertar datos en la tabla " + fileName);
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+
     }
 }
