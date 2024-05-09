@@ -1,13 +1,15 @@
 package edu.upvictoria.fpoo;
+
 import java.io.*;
 
 public class Commands{
 
-    String folderPath;
+    private String folderPath;
 
-    public void CreateTable(String fName){
+    public void CreateTable(String fName, String columns){
         try{
             FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
+            fw.append(columns);
             fw.append("\n");
             fw.close();
             System.out.println("Tabla " + fName + " creada correctamente");
@@ -35,25 +37,26 @@ public class Commands{
             fw.close();
             System.out.println("Datos insertados en la tabla " + fName + " correctamente");
         }catch (IOException e){
-            System.out.println("Error al insertar datos en la tabla " + fName);
+            System.out.println("Error al insertar datos en la tabla ");
             e.printStackTrace();
         }
+
     }
 
-    public void DeleteTable(String fName) {
+    public void DropTable(String fName) {
         try {
             File Eliminar = new File(folderPath + "/" + fName + ".csv");
             if (Eliminar.exists()) {
                 if (Eliminar.delete()) {
                     System.out.println("Tabla " + fName + " eliminada correctamente");
                 }else {
-                    System.out.println("Error al eliminar datos en la tabla " + fName);
+                    System.out.println("Error al eliminar la tabla");
                 }
             }else {
                 System.out.println("Error");
             }
         }catch (Exception e){
-            System.out.println("Error al eliminar datos en la tabla " + fName);
+            System.out.println("Error al eliminar la tabla");
         }
     }
 
@@ -84,11 +87,24 @@ public class Commands{
                         }
                     }
                 } else {
-                    System.out.println("No existen tablas en la ruta especificada");
+                    System.out.println("No existen tablas en esta ruta");
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void DeleteTable(String fileName, String columns) { // En proceso de creación
+        try {
+            FileWriter fw = new FileWriter(folderPath + "/" + fileName + ".csv", true);
+            fw.append(columns);
+            fw.append("\n");
+            fw.close();
+            System.out.println("Datos insertados en la tabla " + fileName + " correctamente");
+        } catch (IOException e) {
+            System.out.println("Error al insertar datos en la tabla " + fileName);
+            e.printStackTrace();
         }
     }
 }

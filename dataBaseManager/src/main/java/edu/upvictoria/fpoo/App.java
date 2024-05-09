@@ -5,22 +5,23 @@ import java.io.InputStreamReader;
 
 public class App {
 
-    public static void main(String[] args) {
-       readLine();
-    }
+    static Switch sw = new Switch();
 
-    public static String readLine() {
-        Commands c = new Commands();
-        c.UseTable("/home/sebastian/Escritorio");
-        Key leer = new Key();
+   public static void main(String[] args) {
+       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        String line = "";
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            leer.funcion(br.readLine());
-        } catch (IOException e) {
-            System.err.println("Ha ocurrido un error al leer el entrada");
-        }
-        return line;
-    }
+       while (true){
+           try {
+               System.out.print(">SQL: ");
+
+               String comando = br.readLine().trim();
+               sw.Swtch(comando);
+               if (comando.equals("salir")){
+                   return;
+               }
+           } catch (IOException e) {
+               System.out.println(e.getMessage());
+           }
+       }
+   }
 }
