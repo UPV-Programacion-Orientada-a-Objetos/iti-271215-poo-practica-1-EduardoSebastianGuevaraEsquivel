@@ -12,15 +12,14 @@ public class Switch {
 
         switch (comandoW) {
             case "CREATE":
-                if (dividir.length > 1 && dividir[1].equalsIgnoreCase("TABLE")) {
-                    if (dividir.length > 2) {
-                        CreateTable(dividir[2], dividir[3].toLowerCase());
+                    if (dividir.length > 3) {
+                        String fName = dividir[1];
+                        String type = dividir[2];
+                        String columns = dividir[3];
+                        CreateTable(fName, type, columns);
                     } else {
-                        System.out.println("Falta nombre de la tabla");
+                        System.out.println("Comando invalido");
                     }
-                } else {
-                    System.out.println("Comando invalido");
-                }
                 break;
 
             case "USE":
@@ -30,9 +29,9 @@ public class Switch {
 
             case "INSERT": //PRUEBA
                 if (dividir.length > 2) {
-                    String fn = dividir[1];
-                    String col = dividir[2];
-                    InsertTable(fn, col);
+                    String fName = dividir[1];
+                    String columns = dividir[2];
+                    InsertTable(fName, columns);
                 } else {
                     System.out.println("ERROR");
                 }
@@ -75,14 +74,14 @@ public class Switch {
                     System.out.println("ERROR");
                 }
         }
-
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void CreateTable(String fName, String columns) {
+    private void CreateTable(String fName, String columns,String type) {
         try {
             FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
+            fw.equals(columns + type + " NOT NULL PRIMARY KEY");
             fw.append(columns);
             fw.append("\n");
             fw.close();
@@ -91,7 +90,7 @@ public class Switch {
             System.out.println(e.getMessage());
         }
     }
-
+    
     public void UseTable(String path) {
         File archivo = new File(path);
         if (!archivo.exists()) {
@@ -122,14 +121,17 @@ public class Switch {
             if (Eliminar.exists()) {
                 if (Eliminar.delete()) {
                     System.out.println("Tabla eliminada correctamente");
-                } else {
-                    System.out.println("No se encontro la tabla");
+                }else {
+                    System.out.println("Error al eliminar la tabla ");
                 }
+            }else {
+                System.out.println("Error al elinmar la tabla ");
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
+
 
     public void SelectTable(String fName) {
         try {

@@ -7,6 +7,8 @@ public class App{
 
     static Switch sw = new Switch();
 
+    //USE /home/sebastian/Escritorio;
+
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
