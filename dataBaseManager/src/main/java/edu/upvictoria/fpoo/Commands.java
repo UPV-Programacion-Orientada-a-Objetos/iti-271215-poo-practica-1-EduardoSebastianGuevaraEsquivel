@@ -1,18 +1,25 @@
 package edu.upvictoria.fpoo;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Commands {
 
-    private static String folderPath;
+    File folderPath;
 
-    public void CreateTable(String fName, String columns){
-        try{
+    public void setFolderPath(String path) {
+        this.folderPath = new File(path);
+    }
+
+    void CreateTable(String fName, String columns, String type) {
+        try {
             FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
+            fw.equals(columns + type + " NOT NULL PRIMARY KEY");
             fw.append(columns);
             fw.append("\n");
             fw.close();
             System.out.println("Tabla creada correctamente");
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -21,50 +28,59 @@ public class Commands {
         File archivo = new File(path);
         if (!archivo.exists()) {
             System.out.println("Ruta no encontrada");
-
         } else {
-            this.folderPath = path;
+            setFolderPath(path);
             System.out.println("Ruta encontrada: " + folderPath);
         }
     }
 
-    public void InsertTable(String fName, String columns){
-        try{
-            FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
-            fw.append(columns);
-            fw.append("\n");
-            fw.close();
-            System.out.println("Datos ingresados correctamente");
-        }catch (IOException e){
+    public void InsertTable(String fName, String columns) {
+        try {
+            if (folderPath != null) {
+                FileWriter fw = new FileWriter(new File(folderPath, fName + ".csv"), true);
+                fw.write(columns + "\n");
+                fw.close();
+                System.out.println("Datos insertados correctamente");
+            } else {
+                System.out.println("Ruta no especificada");
+            }
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public void DropTable(String fName) {
         try {
-            File Eliminar = new File(folderPath + "/" + fName + ".csv");
-            if (Eliminar.exists()) {
-                if (Eliminar.delete()) {
-                    System.out.println("Tabla eliminada correctamente");
-                }else {
+            if (folderPath != null) {
+                File fileToDelete = new File(folderPath, fName + ".csv");
+                if (fileToDelete.exists()) {
+                    if (fileToDelete.delete()) {
+                        System.out.println("Tabla eliminada correctamente");
+                    } else {
+                        System.out.println("Error al eliminar la tabla ");
+                    }
+                } else {
                     System.out.println("Error al eliminar la tabla ");
                 }
-            }else {
-                System.out.println("Error al elinmar la tabla ");
+            } else {
+                System.out.println("Ruta no especificada");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     public void SelectTable(String fName) {
         try {
-            File file = new File(folderPath + "/" + fName + ".csv");
-            if (file.exists()) {
-                System.out.println("Tabla encontrada");
+            if (folderPath != null) {
+                File file = new File(folderPath, fName + ".csv");
+                if (file.exists()) {
+                    System.out.println("Tabla encontrada");
+                } else {
+                    System.out.println("La tabla no existe");
+                }
             } else {
-                System.out.println("La tabla no existe");
+                System.out.println("Ruta no especificada");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -73,11 +89,8 @@ public class Commands {
 
     public void ShowTable() {
         try {
-            File directory = new File(folderPath);
-            if (!directory.exists()) {
-                System.out.println("No existen tablas creadas");
-            } else {
-                File[] files = directory.listFiles();
+            if (folderPath != null && folderPath.exists()) {
+                File[] files = folderPath.listFiles();
                 if (files != null && files.length > 0) {
                     for (File file : files) {
                         if (file.isFile()) {
@@ -87,24 +100,11 @@ public class Commands {
                 } else {
                     System.out.println("No existen tablas en la ruta especificada");
                 }
+            } else {
+                System.out.println("Ruta no especificada o no existe");
             }
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    public void ValueTable(String columns) {
-        try {
-            String fName = "nombre";
-
-            FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv");
-            fw.append(columns);
-            fw.append("\n");
-            fw.close();
-            System.out.println("Datos insertados correctamente");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 }

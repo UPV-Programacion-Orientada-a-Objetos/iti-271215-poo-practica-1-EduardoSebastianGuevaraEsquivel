@@ -64,15 +64,6 @@ public class Switch {
                     System.out.println("Comando invalido");
                 }
                 break;
-
-            case "VALUES": //PRUEBA
-                if (dividir.length > 2) {
-                    String v1 = dividir[1];
-                    String v2 = dividir[2];
-                    InsertTable(v1, v2);
-                } else {
-                    System.out.println("ERROR");
-                }
         }
     }
 
@@ -90,7 +81,7 @@ public class Switch {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public void UseTable(String path) {
         File archivo = new File(path);
         if (!archivo.exists()) {
@@ -132,7 +123,6 @@ public class Switch {
         }
     }
 
-
     public void SelectTable(String fName) {
         try {
             File file = new File(folderPath + "/" + fName + ".csv");
@@ -167,17 +157,4 @@ public class Switch {
             System.out.println(e.getMessage());
         }
     }
-
-    public void ValueTable(String fName, String columns) {
-        try {
-            FileWriter fw = new FileWriter(folderPath + "/" + fName + ".csv", true);
-            fw.append(columns);
-            fw.append("\n");
-            fw.close();
-            System.out.println("Datos insertados correctamente");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
 }
